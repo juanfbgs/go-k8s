@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-k8s-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: go-k8s
+  template:
+    metadata:
+      labels:
+        app: go-k8s
+    spec:
+      containers:
+        - name: go-k8s
+          image: ghcr.io/juanfbgs/go-k8s:main
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 2
+            periodSeconds: 5
