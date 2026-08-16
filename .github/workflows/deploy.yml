@@ -3,6 +3,9 @@ name: Build and Push to GHCR
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - "README.md"
+      - "Makefile"
 
 permissions:
   contents: read
